@@ -7,8 +7,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        MYSQL_DATABASE_USER='root',
-        MYSQL_DATABASE_PASSWORD='',
+        MYSQL_DATABASE_USER='master',
+        MYSQL_DATABASE_PASSWORD='passe',
         MYSQL_DATABASE_DB='tekbot',
     )
 
@@ -53,11 +53,33 @@ def create_app(test_config=None):
         return render_template("index.html", green=green, yellow=yellow, red=red, blue=blue)
 
     @app.get("/set")
-    def save_color():
+    def save_color_web():
         color = request.args.get("color")
         if color in ['green', 'yellow', 'red', 'blue'] :
             cursor.execute(f"INSERT INTO `colors`(`color`) VALUES ('{color}')")
             connection.commit()
         return redirect(url_for("render_page"))
+    
+    @app.get("/api/set")
+    def save_color_api():
+        color = request.args.get("color")
+        if color in ['green', 'yellow', 'red', 'blue'] :
+            cursor.execute(f"INSERT INTO `colors`(`color`) VALUES ('{color}')")
+            connection.commit()
+            headers = {
+                "Accept": 'application/json'
+            }
+            response = {
+                'success':True,
+            }
+            return (response, 201, headers)
+        else :
+            headers = {
+                "Accept": 'application/json'
+            }
+            response = {
+                'success':False,
+            }
+            return (response, 422, headers)
 
     return app
