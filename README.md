@@ -24,11 +24,11 @@ pip install -r requirements.txt
 ## 4- Lancer le projet
 ### En local
 ```sh
-flask --app 'tekbot' run --debug
+flask --app 'tekbot' run --debug --with-threads
 ```
 ### En réseau
 ```sh
-flask --app 'tekbot' run --debug --host=0.0.0.0
+flask --app 'tekbot' run --debug --with-threads --host=0.0.0.0
 ```
 
 ## 5- Routes :
