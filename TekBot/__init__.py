@@ -8,7 +8,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         MYSQL_DATABASE_USER='master',
-        MYSQL_DATABASE_PASSWORD='master',
+        MYSQL_DATABASE_PASSWORD='passe',
         MYSQL_DATABASE_DB='tekbot',
     )
 
@@ -31,9 +31,18 @@ def create_app(test_config=None):
     connection = mysql.connect()
     cursor = connection.cursor()
     cursor.execute(" TRUNCATE TABLE colors")
-
-    @app.get("/")
-    def render_page():
+    connection.close()
+    
+    def set_value(color):
+        connection = mysql.connect()
+        cursor = connection.cursor()
+        cursor.execute(f"INSERT INTO `colors`(`color`) VALUES ('{color}')")
+        connection.commit()
+        connection.close()
+        
+    def get_values():
+        connection = mysql.connect()
+        cursor = connection.cursor()
         cursor.execute("""
             SELECT color, COUNT(*) AS total
             FROM colors
@@ -41,45 +50,59 @@ def create_app(test_config=None):
             GROUP BY color
         """)
         colors = cursor.fetchall()
+        connection.close()
         
         green = yellow = red = blue = 0
-        context = {}
-        for color, count in colors :
-            if color == "green" : green = count
-            if color == "yellow" : yellow = count
-            if color == "red" : red = count
-            if color == "blue" : blue = count
+        for color, count in colors:
+            if color == "green": green = count
+            if color == "yellow": yellow = count
+            if color == "red": red = count
+            if color == "blue": blue = count
             
+        return green, yellow, red, blue
+
+    @app.get("/")
+    def render_page():
+        green, yellow, red, blue = get_values()            
         return render_template("index.html", green=green, yellow=yellow, red=red, blue=blue)
 
     @app.get("/set")
     def save_color_web():
         color = request.args.get("color")
         if color in ['green', 'yellow', 'red', 'blue'] :
-            cursor.execute(f"INSERT INTO `colors`(`color`) VALUES ('{color}')")
-            connection.commit()
+            set_value(color)
         return redirect(url_for("render_page"))
     
     @app.get("/api/set")
     def save_color_api():
         color = request.args.get("color")
+        headers = {
+            "Accept": 'application/json',
+        }
         if color in ['green', 'yellow', 'red', 'blue'] :
-            cursor.execute(f"INSERT INTO `colors`(`color`) VALUES ('{color}')")
-            connection.commit()
-            headers = {
-                "Accept": 'application/json'
-            }
+            set_value(color)
             response = {
                 'success':True,
             }
             return (response, 201, headers)
-        else :
-            headers = {
-                "Accept": 'application/json'
-            }
+        elif color != None:
             response = {
                 'success':False,
+                'message': 'Couleur non valide. Utilisez "green", "yellow", "red" ou "blue".'
             }
             return (response, 422, headers)
+        else:
+            green, yellow, red, blue = get_values()
+            response = {
+                'success':True,
+                'message': 'Donées récupérées avec succès.',
+                'data': {
+                    'green': green,
+                    'yellow': yellow,
+                    'red': red,
+                    'blue': blue
+                }
+            }
+            return (response, 200, headers)
 
     return app
