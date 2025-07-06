@@ -37,4 +37,6 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-        flask --app 'TekBot' --debug --with-threads --host=0.0.0.0
+    - name: Flask
+      run: |
+       flask --app 'TekBot' --with-threads --host=0.0.0.0
