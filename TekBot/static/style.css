@@ -152,9 +152,26 @@ body {
     font-size: 2.5em;
     font-weight: bold;
     margin-top: 10px;
+    color: #ff2600; /* Couleur d'accent pour les valeurs */
+}
+.card .value1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #235701; /* Couleur d'accent pour les valeurs */
+}
+.card .value2 {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-top: 10px;
     color: #007bff; /* Couleur d'accent pour les valeurs */
 }
-
+.card .value3 {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #b6aa0b; /* Couleur d'accent pour les valeurs */
+}
 /* Chart Section */
 .chart-section {
     background-color: #ffffff; /* Fond de graphique clair */

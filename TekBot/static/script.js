@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Récupérer les valeurs des cartes dynamiquement
     const redValue = parseInt(document.querySelector('.card.red .value').textContent);
-    const greenValue = parseInt(document.querySelector('.card.green .value').textContent);
-    const blueValue = parseInt(document.querySelector('.card.blue .value').textContent);
-    const yellowValue = parseInt(document.querySelector('.card.yellow .value').textContent);
+    const greenValue = parseInt(document.querySelector('.card.green .value1').textContent);
+    const blueValue = parseInt(document.querySelector('.card.blue .value2').textContent);
+    const yellowValue = parseInt(document.querySelector('.card.yellow .value3').textContent);
 
     const dataValues = [redValue, greenValue, blueValue, yellowValue];
 
