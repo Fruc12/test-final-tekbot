@@ -7,8 +7,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        MYSQL_DATABASE_USER='root',
-        MYSQL_DATABASE_PASSWORD='',
+        MYSQL_DATABASE_USER='master',
+        MYSQL_DATABASE_PASSWORD='master',
         MYSQL_DATABASE_DB='tekbot',
     )
 

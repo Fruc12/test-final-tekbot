@@ -1,0 +1,179 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* Fond clair */
+    color: #333333; /* Texte sombre */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    background-color: #ffffff; /* Fond de navbar clair */
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+}
+
+.navbar-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333333; /* Couleur de texte sombre */
+}
+
+.trc-text {
+    font-size: 1.1em;
+    color: #666666; /* Couleur de texte plus claire */
+}
+
+.live-button {
+    background-color: #28a745; /* Vert pour LIVE */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.live-button:hover {
+    background-color: #218838;
+}
+
+.icon-button { /* Style pour les boutons d'icônes */
+    background-color: transparent;
+    border: none;
+    color: #666666;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s ease;
+}
+
+.icon-button:hover {
+    color: #007bff; /* Bleu au survol */
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 90%;
+    max-width: 1200px;
+    background-color: #ffffff; /* Fond clair pour le tableau de bord */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+}
+
+/* Card Section */
+.card-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #f8f9fa; /* Fond de carte très clair */
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Ombre très légère */
+    transition: transform 0.2s ease-in-out;
+    border: 1px solid #e0e0e0; /* Bordure légère */
+    color: #333; /* Texte sombre sur les cartes */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+/* Couleurs spécifiques des cartes */
+.card.red { border-left: 5px solid #dc3545; }
+.card.green { border-left: 5px solid #28a745; }
+.card.blue { border-left: 5px solid #007bff; }
+.card.yellow { border-left: 5px solid #ffc107; }
+
+/* Icône de poubelle sur les cartes */
+.waste-icon {
+    font-size: 1.8em;
+    color: #6c757d; /* Couleur de l'icône */
+}
+
+.card.red .waste-icon { color: #dc3545; }
+.card.green .waste-icon { color: #28a745; }
+.card.blue .waste-icon { color: #007bff; }
+.card.yellow .waste-icon { color: #ffc107; }
+
+
+.card .value {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #007bff; /* Couleur d'accent pour les valeurs */
+}
+
+/* Chart Section */
+.chart-section {
+    background-color: #ffffff; /* Fond de graphique clair */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0; /* Bordure légère */
+}
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #333333; /* Texte sombre */
+}
+
+/* Correction de la hauteur de l'histogramme si besoin */
+canvas#wasteHistogram {
+    max-height: 400px; /* Limite la hauteur de l'histogramme pour éviter qu'il soit trop long */
+    width: 100% !important; /* S'assure que la largeur est bien 100% */
+    height: auto !important; /* Laisse la hauteur s'adapter en fonction de max-height */
+}
