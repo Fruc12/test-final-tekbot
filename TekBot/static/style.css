@@ -85,7 +85,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
     background-color: #ffffff; /* Fond clair pour le tableau de bord */
     border-radius: 10px;
@@ -204,3 +204,106 @@ canvas#wasteHistogram {
     width: 100% !important; /* S'assure que la largeur est bien 100% */
     height: auto !important; /* Laisse la hauteur s'adapter en fonction de max-height */
 }
+/* Styles pour la navbar utils */
+.navbar-utils {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.battery-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.1rem;
+}
+
+.battery-icon {
+    color: #28a745; /* Vert par défaut */
+}
+
+.battery-level {
+    font-weight: bold;
+}
+
+.volume-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #219ae1;
+    transition: transform 0.2s;
+}
+
+.volume-btn:hover {
+    transform: scale(1.1);
+    color: #007bff;
+}
+
+/* Style pour la carte Total */
+.total-card {
+    width: 100%;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #6c757d;
+    text-align: center;
+    background: linear-gradient(to right, #f5f7fa, #e4e8eb);
+}
+
+.total-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.total-icon {
+    font-size: 2rem;
+    color: #2e7d32; /* Vert foncé élégant */
+}
+
+.total-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #343937; /* Gris anthracite */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.total-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #aa742e; /* Bleu vif mais professionnel */
+    margin-left: 10px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Effet au survol pour plus d'interactivité */
+.total-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Style pour le graphique en pleine largeur */
+.chart-fullwidth {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+}
+
+/* Ajustement de la hauteur du canvas
+canvas#wasteHistogram {
+    width: 100% !important;
+    height: 400px !important;
+} */
+
