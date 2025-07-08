@@ -1,60 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TekBot | DashBoard</title>
-    <link rel="stylesheet" href="../static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../static/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="navbar-left">
-            <img src="../static/logo.jpeg" alt="Logo Tekbot" class="logo"> <span class="navbar-title">TEKBOT</span>
+        <img src="../static/logo.jpeg" alt="Logo Tekbot" class="logo" />
+        <span class="navbar-title">TEKBOT</span>
         </div>
         <div class="navbar-right">
-            <img src="../static/trc.png" alt="Logo Tekbot" class="logo"> <span class="navbar-title"></span>
+        <img src="../static/trc.png" alt="Logo TRC" class="logo" />
         </div>
-    </nav>
+  </nav>
 
-    <div class="dashboard-container">
-        <div class="card-section">
-            <div class="card red">
-                <div class="card-header">
-                    <h3>Red Waste</h3>
-                    <i class="fa-solid fa-trash-can waste-icon"></i>
-                </div>
-                <p class="value">{{ red }}</p>
-            </div>
-            <div class="card green">
-                <div class="card-header">
-                    <h3>Green Waste</h3>
-                    <i class="fa-solid fa-trash-can waste-icon"></i>
-                </div>
-                <p class="value1">{{ green }}</p> </div>
-            <div class="card blue">
-                <div class="card-header">
-                    <h3>Blue Waste</h3>
-                    <i class="fa-solid fa-trash-can waste-icon"></i>
-                </div>
-                <p class="value2">{{ blue }}</p>
-            </div>
-            <div class="card yellow">
-                <div class="card-header">
-                    <h3>Yellow Waste</h3>
-                    <i class="fa-solid fa-trash-can waste-icon"></i>
-                </div>
-                <p class="value3">{{ yellow }}</p>
-            </div>
-        </div>
+  <div class="dashboard-container">
+    <div class="card-section">
 
-        <div class="chart-section">
-            <h2 class="chart-title">Waste Distribution</h2>
-            <canvas id="wasteHistogram"></canvas>
+      <div class="card red">
+        <div class="card-header">
+          <h3>Red Waste</h3>
+          <i class="fa-solid fa-trash-can waste-icon"></i>
         </div>
+        <p class="value"><span id="rouge-count">{{ red }}</span></p>
+      </div>
+
+      <div class="card green">
+        <div class="card-header">
+          <h3>Green Waste</h3>
+          <i class="fa-solid fa-trash-can waste-icon"></i>
+        </div>
+        <p class="value1"><span id="vert-count">{{ green }}</span></p>
+      </div>
+
+      <div class="card blue">
+        <div class="card-header">
+          <h3>Blue Waste</h3>
+          <i class="fa-solid fa-trash-can waste-icon"></i>
+        </div>
+        <p class="value2"><span id="bleu-count">{{ blue }}</span></p>
+      </div>
+
+      <div class="card yellow">
+        <div class="card-header">
+          <h3>Yellow Waste</h3>
+          <i class="fa-solid fa-trash-can waste-icon"></i>
+        </div>
+        <p class="value3"><span id="jaune-count">{{ yellow }}</span></p>
+      </div>
+
+      <!-- ✅ Carte TOTAL -->
+      <div class="card gray">
+        <div class="card-header">
+          <h3>Total Déchets</h3>
+          <i class="fa-solid fa-dumpster waste-icon"></i>
+        </div>
+        <p class="value4"><span id="total-count">{{ red + green + blue + yellow }}</span></p>
+      </div>
+
+      <!-- ✅ Carte BATTERIE -->
+      <div class="card orange">
+        <div class="card-header">
+          <h3>Batterie</h3>
+          <i class="fa-solid fa-battery-three-quarters waste-icon"></i>
+        </div>
+        <div class="card-body">
+          <span id="battery-level">--</span>%
+        </div>
+      </div>
+
+      <!-- ✅ Carte RAPPORT VOCAL -->
+      <div class="card purple">
+        <div class="card-header">
+          <h3>Rapport Vocal</h3>
+          <i class="fa-solid fa-volume-up waste-icon"></i>
+        </div>
+        <div class="card-body">
+          <button onclick="lireRapport()">Lire le rapport</button>
+        </div>
+      </div>
     </div>
 
-    <script src="../static/script.js"></script>
+    <!-- Graphique -->
+    <div class="chart-section">
+      <h2 class="chart-title">Waste Distribution</h2>
+      <canvas id="wasteHistogram"></canvas>
+    </div>
+  </div>
+
+  <script src="../static/script.js"></script>
 </body>
 </html>

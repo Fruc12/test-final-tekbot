@@ -1,10 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialisation des données à 0
     const dataValues = [0, 0, 0, 0]; // [red, green, blue, yellow]
-
     const ctx = document.getElementById('wasteHistogram').getContext('2d');
 
-    // Création du graphique une seule fois
     window.wasteChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -17,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'rgba(40, 167, 69, 0.7)',
                     'rgba(0, 123, 255, 0.7)',
                     'rgba(255, 193, 7, 0.7)'
+                    
                 ],
                 borderColor: [
                     'rgba(220, 53, 69, 1)',
@@ -53,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Fonction de mise à jour toutes les secondes
     async function fetchAndUpdateWasteData() {
         try {
             const response = await fetch('/api/set');
@@ -62,13 +59,15 @@ document.addEventListener('DOMContentLoaded', function () {
             if (result.success && result.data) {
                 const { red, green, blue, yellow } = result.data;
 
-                // MAJ des éléments HTML
+                // Met à jour les anciennes classes
                 document.querySelector('.value').textContent = red;
                 document.querySelector('.value1').textContent = green;
                 document.querySelector('.value2').textContent = blue;
                 document.querySelector('.value3').textContent = yellow;
 
-                // MAJ des données du graphique
+                const total = red + green + blue + yellow;
+                document.getElementById("total-count").textContent = total;
+
                 window.wasteChart.data.datasets[0].data = [red, green, blue, yellow];
                 window.wasteChart.update();
             }
@@ -77,7 +76,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Appel initial puis toutes les secondes
     fetchAndUpdateWasteData();
     setInterval(fetchAndUpdateWasteData, 1000);
+
+    // Niveau batterie
+    navigator.getBattery?.().then(battery => {
+        const level = Math.round(battery.level * 100);
+        document.getElementById("battery-level").innerText = level;
+    });
 });
+
+// Fonction de rapport vocal
+function lireRapport() {
+    const rouge = parseInt(document.getElementById("rouge-count")?.innerText || "0");
+    const bleu = parseInt(document.getElementById("bleu-count")?.innerText || "0");
+    const vert = parseInt(document.getElementById("vert-count")?.innerText || "0");
+    const jaune = parseInt(document.getElementById("jaune-count")?.innerText || "0");
+
+    const message = `Il y a ${rouge} déchets rouges, ${bleu} bleus, ${vert} verts et ${jaune} jaunes.`;
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.lang = "fr-FR";
+    synth.speak(utterance);
+}
