@@ -1,5 +1,4 @@
-import os
-from flaskext.mysql import MySQL
+import os, sqlite3
 from flask import Flask, redirect, render_template, request, url_for
 
 def create_app(test_config=None):
@@ -7,9 +6,6 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        MYSQL_DATABASE_DB='tekbot',
-        MYSQL_DATABASE_USER='root',
-        MYSQL_DATABASE_PASSWORD='',
     )
 
     if test_config is None:
@@ -25,23 +21,24 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-        
-    mysql = MySQL()
-    mysql.init_app(app)
-    connection = mysql.connect()
+    def connect():
+        return sqlite3.connect("db.sqlite3")
+    
+    connection = connect()
     cursor = connection.cursor()
-    cursor.execute(" TRUNCATE TABLE colors")
+    with open('schema.sql') as f:
+        cursor.executescript(f.read())  
     connection.close()
     
     def set_value(color):
-        connection = mysql.connect()
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute(f"INSERT INTO `colors`(`color`) VALUES ('{color}')")
         connection.commit()
         connection.close()
         
     def get_values():
-        connection = mysql.connect()
+        connection = connect()
         cursor = connection.cursor()
         cursor.execute("""
             SELECT color, COUNT(*) AS total
