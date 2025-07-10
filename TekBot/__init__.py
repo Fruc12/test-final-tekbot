@@ -8,7 +8,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         MYSQL_DATABASE_USER='master',
-        MYSQL_DATABASE_PASSWORD='passe',
+        MYSQL_DATABASE_PASSWORD='master',
         MYSQL_DATABASE_DB='tekbot',
     )
 
