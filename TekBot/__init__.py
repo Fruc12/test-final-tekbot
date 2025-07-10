@@ -10,6 +10,8 @@ def create_app(test_config=None):
         MYSQL_DATABASE_USER='master',
         MYSQL_DATABASE_PASSWORD='master',
         MYSQL_DATABASE_DB='tekbot',
+        MYSQL_DATABASE_USER='master',
+        MYSQL_DATABASE_PASSWORD='master',
     )
 
     if test_config is None:
@@ -77,7 +79,7 @@ def create_app(test_config=None):
     def save_color_api():
         color = request.args.get("color")
         headers = {
-            "Accept": 'application/json',
+            "Content-Type": 'application/json',
         }
         if color in ['green', 'yellow', 'red', 'blue'] :
             set_value(color)
@@ -88,7 +90,7 @@ def create_app(test_config=None):
         elif color != None:
             response = {
                 'success':False,
-                'message': 'Couleur non valide. Utilisez "green", "yellow", "red" ou "blue".'
+                'message': "Couleur non valide. Utilisez 'green', 'yellow', 'red' ou 'blue'."
             }
             return (response, 422, headers)
         else:
