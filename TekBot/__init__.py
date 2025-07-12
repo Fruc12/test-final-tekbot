@@ -10,8 +10,7 @@ def create_app(test_config=None):
         MYSQL_DATABASE_USER='master',
         MYSQL_DATABASE_PASSWORD='master',
         MYSQL_DATABASE_DB='tekbot',
-        MYSQL_DATABASE_USER='master',
-        MYSQL_DATABASE_PASSWORD='master',
+       
     )
 
     if test_config is None:

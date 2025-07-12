@@ -115,12 +115,17 @@ navigator.getBattery?.().then(battery => {
 
 // Fonction de rapport vocal
 function lireRapport() {
-    const rouge = parseInt(document.getElementById("rouge-count")?.innerText || "0");
-    const bleu = parseInt(document.getElementById("bleu-count")?.innerText || "0");
-    const vert = parseInt(document.getElementById("vert-count")?.innerText || "0");
-    const jaune = parseInt(document.getElementById("jaune-count")?.innerText || "0");
+    // const rouge = parseInt(document.getElementById("rouge-count")?.innerText || "0");
+    // const bleu = parseInt(document.getElementById("bleu-count")?.innerText || "0");
+    // const vert = parseInt(document.getElementById("vert-count")?.innerText || "0");
+    // const jaune = parseInt(document.getElementById("jaune-count")?.innerText || "0");
+    const red = parseInt(document.querySelector('.value')?.innerText || "0");
+    const green = parseInt(document.querySelector('.value1')?.innerText || "0");
+    const blue = parseInt(document.querySelector('.value2')?.innerText || "0");
+    const yellow = parseInt(document.querySelector('.value3')?.innerText || "0");
+    const total = red + green + blue + yellow;
 
-    const message = `Il y a ${rouge} déchets rouges, ${bleu} bleus, ${vert} verts et ${jaune} jaunes.`;
+    const message = `Il y a au total ${total} déchets; ${red} déchets rouges, ${blue} bleus, ${green} verts et ${yellow} jaunes.`;
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(message);
     utterance.lang = "fr-FR";
