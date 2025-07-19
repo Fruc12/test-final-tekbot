@@ -1,4 +1,5 @@
-body {
+/* === Style général === */
+  body {
     font-family: Arial, sans-serif;
     background-color: #f0f2f5; /* Fond clair */
     color: #333333; /* Texte sombre */
@@ -299,6 +300,271 @@ canvas#wasteHistogram {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     border: 1px solid #e0e0e0;
     margin-top: 20px;
+}
+.robot-avatar {
+height: 50px;
+width: 50px;
+border-radius: 50%;
+overflow: hidden;
+transition: transform 0.3s ease;
+}
+
+.robot-avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #007bff;
+    box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3);
+    animation: robot-nod 4s infinite ease-in-out;
+}
+
+@keyframes robot-nod {
+    0%, 100% { transform: rotate(-5deg) translateY(0); }
+    25% { transform: rotate(5deg) translateY(-5px); }
+    50% { transform: rotate(0deg) translateY(0); }
+    75% { transform: rotate(5deg) translateY(-5px); }
+}
+
+.robot-avatar.talking {
+    animation: robot-nod 4s infinite, robot-mouth 0.5s infinite alternate;
+}
+
+@keyframes robot-mouth {
+    0% { clip-path: circle(50% at 50% 50%); }
+    100% { clip-path: ellipse(50% 30% at 50% 50%); }
+}
+
+/* === Splash Screen stylisé === */
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom right, #f4f6f9, #e3f2fd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+  overflow: hidden;
+  animation: fadeOut 1s ease forwards;
+  animation-delay: 3.2s;
+}
+
+.splash-content {
+  text-align: center;
+  z-index: 2;
+  animation: scaleIn 1s ease;
+}
+
+.splash-logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+.splash-title {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+/* Icônes flottantes décoratives */
+/* Icônes flottantes colorées, visibles */
+.floating-icons {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.floating-icons i {
+  position: absolute;
+  font-size: 3.2rem;
+  opacity: 0.5;
+  animation: floatIcon 6s infinite ease-in-out;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Icônes avec couleur visible */
+.floating-icons i:nth-child(1) {
+  top: 8%;
+  left: 8%;
+  color: #6f42c1;
+}
+.floating-icons i:nth-child(2) {
+  top: 40%;
+  left: 85%;
+  color: #28a745;
+}
+.floating-icons i:nth-child(3) {
+  top: 50%;
+  left: 10%;
+  color: #fd7e14;
+}
+.floating-icons i:nth-child(4) {
+  top: 80%;
+  left: 85%;
+  color: #dc3545;
+}
+.floating-icons i:nth-child(5) {
+  top: 12%;
+  left: 45%;
+  color: #0d6efd;
+}
+.floating-icons i:nth-child(6) {
+  top: 88%;
+  left: 45%;
+  color: #6c757d;
+}
+.floating-icons i:nth-child(7) {
+  top: 10%;
+  left: 90%;
+  color: #20c997;
+}
+.floating-icons i:nth-child(8) {
+  top: 45%;
+  left: 50%;
+  color: #ffc107;
+}
+.floating-icons i:nth-child(9) {
+  top: 85%;
+  left: 5%;
+  color: #6610f2;
+}
+.floating-icons i:nth-child(10) {
+  top: 70%;
+  left: 70%;
+  color: #343a40;
+}
+
+
+/* Animation flottante douce */
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.export-buttons {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.export-buttons button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.export-buttons button:hover {
+  background-color: #0056b3;
+}
+/* Style de base amélioré */
+.voice-btn {
+  background: none;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  font-size: 1.4rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff5722, #ff7043);
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.4);
+}
+
+/* Animation au survol */
+.voice-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.6);
+}
+
+/* État actif - quand l'écoute est en cours */
+.voice-btn.active {
+  animation: pulse 1.5s infinite;
+  background: linear-gradient(135deg, #f44336, #ff5722);
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+  }
+}
+
+/* Ondes sonores animées */
+.voice-btn::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 87, 34, 0.3);
+  top: 0;
+  left: 0;
+  animation: sonar 2s infinite;
+  opacity: 0;
+  z-index: -1;
+}
+
+.voice-btn.active::after {
+  animation: sonar 1.5s infinite;
+}
+
+@keyframes sonar {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Icône qui bouge */
+.voice-btn i {
+  transition: transform 0.3s ease;
+}
+
+.voice-btn.active i {
+  animation: mic-bounce 0.8s infinite alternate;
+}
+
+@keyframes mic-bounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-5px) scale(1.1);
+  }
 }
 
 /* Ajustement de la hauteur du canvas

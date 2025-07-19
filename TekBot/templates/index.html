@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../static/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -21,6 +22,11 @@
         <button class="volume-btn" onclick="lireRapport()">
             <i class="fas fa-volume-up volume-icon"></i>
         </button>
+        <div class="robot-avatar" id="robot-avatar" title="TekBot"> <img src="../static/robot.png" alt="TekBot" /> </div>
+       <button class="voice-btn" onclick="startVoiceCommand()" id="voiceBtn">
+  <i class="fas fa-microphone"></i>
+</button>
+
     </div>
     <div class="navbar-right">
         <img src="../static/trc.png" alt="Logo TRC" class="logo" />
@@ -78,5 +84,41 @@
         <canvas id="wasteHistogram"></canvas>
     </div>
   <script src="../static/script.js"></script>
+
+  <audio id="beep" src="{{ url_for('static', filename='sounds/beep.mp3') }}"></audio>
+  
+  <div class="export-buttons">
+  <button onclick="exportCSV()">📄 Exporter en CSV</button>
+  <button onclick="exportPDF()">📑 Exporter en PDF</button>
+</div>
+
 </body>
+<!-- Splash screen TekBot -->
+<!-- Splash screen amélioré -->
+<div id="splash-screen">
+  <div class="floating-icons">
+    <i class="fas fa-cogs"></i>
+    <i class="fas fa-recycle"></i>
+    <i class="fas fa-wrench"></i>
+    <i class="fas fa-trash"></i>
+    <i class="fas fa-bolt"></i>
+    <i class="fas fa-robot"></i>
+    <i class="fas fa-cog"></i>
+    <i class="fas fa-cogs"></i>
+    <i class="fas fa-recycle"></i>
+    <i class="fas fa-wrench"></i>
+    <i class="fas fa-trash"></i>
+    <i class="fas fa-bolt"></i>
+    <i class="fas fa-tools"></i>
+    <i class="fas fa-cog"></i>
+    <i class="fas fa-dumpster"></i>
+    <i class="fas fa-plug"></i>
+    <i class="fas fa-screwdriver"></i>
+  </div>
+  <div class="splash-content">
+    <img src="../static/logo.png" alt="TekBot Logo" class="splash-logo" />
+    <h1 class="splash-title">Initialisation du système de tri TekBot...</h1>
+  </div>
+</div>
+
 </html>

@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function fetchAndUpdateWasteData() {
         try {
-            const response = await fetch('/api/set');
+            const response = await fetch('/api/get');
             const result = await response.json();
 
             if (result.success && result.data) {
-                const { red, green, blue, yellow } = result.data;
+                const { blue, green, red, yellow , battery} = result.data;
 
                 // Met à jour les anciennes classes
                 document.querySelector('.value').textContent = red;
@@ -70,59 +70,138 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 window.wasteChart.data.datasets[0].data = [red, green, blue, yellow];
                 window.wasteChart.update();
+                
+                // Mise à jour du niveau de battere
+                const batteryIcon = document.querySelector('.battery-icon');
+                const batteryLevel = document.querySelector('.battery-level');
+                batteryLevel.textContent = `${battery}%`;
+                if (battery < 20) {
+                    batteryIcon.className = "fas fa-battery-quarter battery-icon";
+                    batteryIcon.style.color = '#dc3545'; /* Rouge */
+                } else if (battery < 50) {
+                    batteryIcon.className = "fas fa-battery-half battery-icon";
+                    batteryIcon.style.color = '#ffc107'; /* Jaune */
+                } else if (battery < 80) {
+                    batteryIcon.className = "fas fa-battery-three-quarters battery-icon";
+                    batteryIcon.style.color = '#28a745'; /* Vert */
+                } else {
+                    batteryIcon.className = "fas fa-battery-full battery-icon";
+                    batteryIcon.style.color = '#28a745'; /* Vert */
+                }
             }
-        } catch (error) {
-            console.error("Erreur API /api/set :", error);
+        }
+        catch (error) {
+            console.error("Erreur API /api/get :", error);
         }
     }
 
     fetchAndUpdateWasteData();
     setInterval(fetchAndUpdateWasteData, 1000);
-
-   // Mise à jour de la batterie
-navigator.getBattery?.().then(battery => {
-    const updateBattery = () => {
-        const level = Math.round(battery.level * 100);
-        const batteryIcon = document.querySelector('.battery-icon');
-        const batteryLevel = document.querySelector('.battery-level');
-        
-        batteryLevel.textContent = `${level}%`;
-        
-        // Changement de couleur et d'icône selon le niveau
-        if (level < 20) {
-            batteryIcon.className = "fas fa-battery-quarter battery-icon";
-            batteryIcon.style.color = '#dc3545'; /* Rouge */
-        } else if (level < 50) {
-            batteryIcon.className = "fas fa-battery-half battery-icon";
-            batteryIcon.style.color = '#ffc107'; /* Jaune */
-        } else if (level < 80) {
-            batteryIcon.className = "fas fa-battery-three-quarters battery-icon";
-            batteryIcon.style.color = '#28a745'; /* Vert */
-        } else {
-            batteryIcon.className = "fas fa-battery-full battery-icon";
-            batteryIcon.style.color = '#28a745'; /* Vert */
-        }
-    };
-
-    // Initialisation
-    updateBattery();
-    
-    // Écouteurs d'événements
-    battery.addEventListener('levelchange', updateBattery);
-    battery.addEventListener('chargingchange', updateBattery);
 });
+
+// Fonction pour jouer le son de bip
+document.addEventListener('DOMContentLoaded', function () {
+  function jouerSonBip() {
+    const audio = document.getElementById('beep');
+    if (audio) {
+      audio.currentTime = 0; // Rewind to start
+      audio.play();
+    }
+  }
+
 });
 
 // Fonction de rapport vocal
 function lireRapport() {
-    const rouge = parseInt(document.getElementById("rouge-count")?.innerText || "0");
-    const bleu = parseInt(document.getElementById("bleu-count")?.innerText || "0");
-    const vert = parseInt(document.getElementById("vert-count")?.innerText || "0");
-    const jaune = parseInt(document.getElementById("jaune-count")?.innerText || "0");
+    // const rouge = parseInt(document.getElementById("rouge-count")?.innerText || "0");
+    // const bleu = parseInt(document.getElementById("bleu-count")?.innerText || "0");
+    // const vert = parseInt(document.getElementById("vert-count")?.innerText || "0");
+    // const jaune = parseInt(document.getElementById("jaune-count")?.innerText || "0");
+    const red = parseInt(document.querySelector('.value')?.innerText || "0");
+    const green = parseInt(document.querySelector('.value1')?.innerText || "0");
+    const blue = parseInt(document.querySelector('.value2')?.innerText || "0");
+    const yellow = parseInt(document.querySelector('.value3')?.innerText || "0");
+    const total = red + green + blue + yellow;
 
-    const message = `Il y a ${rouge} déchets rouges, ${bleu} bleus, ${vert} verts et ${jaune} jaunes.`;
+    const message = `Il y a au total ${total} déchets; ${red} déchets rouges, ${blue} bleus, ${green} verts et ${yellow} jaunes.`;
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(message);
     utterance.lang = "fr-FR";
+    const robot = document.getElementById("robot-avatar");
+  if (robot) robot.classList.add("talking");
+
+  utterance.onend = () => {
+    if (robot) robot.classList.remove("talking");
+  };
     synth.speak(utterance);
 }
+function exportCSV() {
+  const rows = [
+    ["Couleur", "Quantité"],
+    ["Rouge", document.getElementById("rouge-count").innerText],
+    ["Vert", document.getElementById("vert-count").innerText],
+    ["Bleu", document.getElementById("bleu-count").innerText],
+    ["Jaune", document.getElementById("jaune-count").innerText],
+    ["Total", document.getElementById("total-count").innerText]
+  ];
+
+  let csvContent = "data:text/csv;charset=utf-8," 
+      + rows.map(e => e.join(",")).join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "tekbot_stats.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+async function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("Statistiques TekBot", 20, 20);
+
+  const stats = [
+    ["Rouge", document.getElementById("rouge-count").innerText],
+    ["Vert", document.getElementById("vert-count").innerText],
+    ["Bleu", document.getElementById("bleu-count").innerText],
+    ["Jaune", document.getElementById("jaune-count").innerText],
+    ["Total", document.getElementById("total-count").innerText],
+  ];
+
+  let y = 40;
+  stats.forEach(([couleur, qty]) => {
+    doc.text(`${couleur}: ${qty}`, 20, y);
+    y += 10;
+  });
+
+  doc.save("tekbot_stats.pdf");
+}
+function startVoiceCommand() {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert("La commande vocale n'est pas supportée par ce navigateur.");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "fr-FR";
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const command = event.results[0][0].transcript.toLowerCase();
+    console.log("Commande vocale :", command);
+
+    if (command.includes("rapport")) {
+      lireRapport();
+    } else if (command.includes("export") || command.includes("pdf")) {
+      exportPDF();
+    } else if (command.includes("csv")) {
+      exportCSV();
+    } else {
+      alert("Commande non reconnue : " + command);
+    }
+  };
+}
+    
