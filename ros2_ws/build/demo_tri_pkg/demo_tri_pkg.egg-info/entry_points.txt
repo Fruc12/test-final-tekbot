@@ -1,3 +1,0 @@
-[console_scripts]
-demo_tri = demo_tri_pkg.demo_tri:main
-
