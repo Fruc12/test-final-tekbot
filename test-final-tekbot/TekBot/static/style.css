@@ -357,7 +357,7 @@ transition: transform 0.3s ease;
 }
 
 .splash-logo {
-  width: 120px;
+  width: 220px; /* Augmente la taille du logo */
   margin-bottom: 20px;
 }
 
